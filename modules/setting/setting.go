@@ -1148,6 +1148,7 @@ var Service struct {
 	EnableNotifyMail                        bool
 	EnableReverseProxyAuth                  bool
 	EnableReverseProxyAutoRegister          bool
+	EnableReverseProxyAuthSession           bool
 	EnableCaptcha                           bool
 	DefaultKeepEmailPrivate                 bool
 	DefaultAllowCreateOrganization          bool
@@ -1171,6 +1172,7 @@ func newService() {
 	Service.RequireSignInView = sec.Key("REQUIRE_SIGNIN_VIEW").MustBool()
 	Service.EnableReverseProxyAuth = sec.Key("ENABLE_REVERSE_PROXY_AUTHENTICATION").MustBool()
 	Service.EnableReverseProxyAutoRegister = sec.Key("ENABLE_REVERSE_PROXY_AUTO_REGISTRATION").MustBool()
+	Service.EnableReverseProxyAuthSession = sec.Key("ENABLE_REVERSE_PROXY_AUTHENTICATION_SESSION").MustBool()
 	Service.EnableCaptcha = sec.Key("ENABLE_CAPTCHA").MustBool()
 	Service.DefaultKeepEmailPrivate = sec.Key("DEFAULT_KEEP_EMAIL_PRIVATE").MustBool()
 	Service.DefaultAllowCreateOrganization = sec.Key("DEFAULT_ALLOW_CREATE_ORGANIZATION").MustBool(true)

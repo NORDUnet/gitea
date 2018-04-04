@@ -115,9 +115,13 @@ func SignedInUser(ctx *macaron.Context, sess session.Store) (*models.User, bool)
 						log.Error(4, "CreateUser: %v", err)
 						return nil, false
 					}
+					//MK: Set session user
+					handleProxyAuthSession(ctx, sess, u)
 					return u, false
 				}
 			}
+			//MK: Set session user
+			handleProxyAuthSession(ctx, sess, u)
 			return u, false
 		}
 	}
@@ -141,6 +145,16 @@ func SignedInUser(ctx *macaron.Context, sess session.Store) (*models.User, bool)
 		}
 	}
 	return nil, false
+}
+
+func handleProxyAuthSession(ctx *macaron.Context, sess session.Store, u *models.User) {
+	if setting.Service.EnableReverseProxyAuthSession {
+		sess.Set("uid", u.ID)
+		sess.Set("uname", u.Name)
+		//MK: Update lastLogin?
+		// Clear whatever CSRF has right now, force to generate a new one
+		ctx.SetCookie(setting.CSRFCookieName, "", -1, setting.AppSubURL)
+	}
 }
 
 // Form form binding interface
